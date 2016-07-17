@@ -1,0 +1,17 @@
+Identifier = "LmMinion"
+Name = "LooM Minion"
+Description = "Ein Tool um die Schergenperformance zu erhoehen"
+Author = "Wartoshika@Brutwacht"
+Email = "oliverwarrings@freenet.de"
+Version = "1.0"
+Environment = "3.7"
+
+RunOnStartup = {
+  "global.lua",
+  "util.lua",
+  "engine.lua",
+  "adventure.lua",
+  "minion.lua",
+  "ui.lua",
+  "main.lua"
+}
