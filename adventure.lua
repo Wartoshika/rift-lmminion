@@ -138,7 +138,10 @@ function LmMinion.Adventure.fitDuration(adventureDurationSeconds)
 end
 
 -- liefert ein passendes abenteuer zurueck
-function LmMinion.Adventure.getAdventure()
+function LmMinion.Adventure.getAdventure(checkCost)
+
+    -- default fuer checkCost
+    if checkCost == nil then checkCost = true end
 
     -- alle holen
     local adventures = Inspect.Minion.Adventure.List()
@@ -153,14 +156,25 @@ function LmMinion.Adventure.getAdventure()
         -- wenn verfuegbar
         if adventureDetails.mode == "available" and LmMinion.Adventure.fitDuration(adventureDetails.duration) then
 
-            -- nur noch pruefen ob das abenteuer kostenlos ist
-            if adventureDetails.costCredit > 0 or adventureDetails.costAventurine > 0 then
+            -- da aktuell die rift api einen bug hat sodass abenteuer keine kosten haben
+            -- muss angenommen werden, dass die karte etwas kostet und versucht werden diese
+            -- ohne kosten zu verschieben. wenn dann eine neue karte kommt, ist die vorherige eine
+            -- kostenpflichtige gewesen
+            if checkCost then
 
-                -- dieses abenteuer kostet etwas, verschieben!
-                Command.Minion.Shuffle(adventureDetails.id, "none")
+                -- shuffle
+                pcall(Command.Minion.Shuffle, adventureDetails.id, "none")
 
-                -- rekurisv aufrufen wenn fertig
-                return LmMinion.Adventure.getAdventure()
+                -- aufgabe holen
+                local newAdventure = LmMinion.Adventure.getAdventure(false)
+
+                -- andere abenteuer?
+                if newAdventure.id ~= adventureDetails.id then
+
+                    -- ja neues abenteuer, nochmal pruefen da evtl. die naechste
+                    -- karte ebenfalls etwas kostet.
+                    return LmMinion.Adventure.getAdventure()
+                end
             end
 
             -- dieses nehmen!

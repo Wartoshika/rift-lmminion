@@ -18,6 +18,9 @@ end
 -- ein abenteuer versenden
 function LmMinion.Engine.send()
 
+    -- send ueberhaupt freie plaetze vorhanden?
+    if LmMinion.Adventure.getFreeSlotCount() == 0 then return false end
+
     -- ein abenteuer holen
     local adventure = LmMinion.Adventure.getAdventure()
 
