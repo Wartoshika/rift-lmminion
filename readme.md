@@ -24,3 +24,7 @@ in folgendem Pfad: `%USERPROFILE%\Documents\RIFT\Interface\Addons` (Ab Windows V
 - *A: Nein, es werden nur kostenlose Abenteuer benutzt. Kostenpflichtige Abenteuer werden versucht ohne beigabe von Währungen zu verschieben.*
 - **F: Der Addon Ordner ist nicht unter gem angegebenen Pfad zu erreichen!**
 - *A: In den Rift Optionen auf Addons klicken, dann auf Addonverzeichnis öffnen. Dies ist der Pfad auf Deinem System.*
+
+## Licence
+
+MIT
