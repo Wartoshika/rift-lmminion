@@ -13,8 +13,9 @@ local function init()
     -- gui bauen
     LmMinion.Ui.init(addon)
 
-    -- einmal die gui aktuallisieren
+    -- gui aktuallisieren event
     LmMinion.Ui.update()
+    Command.Event.Attach(Event.System.Update.End, LmMinion.Ui.updateTime, "LmMinion.Ui.updateTime")
 
     -- ausgabe wg. geladen
     print ("erfolgreich geladen (v " .. addon.toc.Version ..")")

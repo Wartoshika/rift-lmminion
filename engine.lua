@@ -88,6 +88,9 @@ function LmMinion.Engine.adventureUpdateEvent(event)
 
     end
 
+    -- abenteuer zeit changes setzen
+    LmMinion.Adventure.updateAdventureTime()
+
     -- gui updaten
     LmMinion.Ui.update()
 end

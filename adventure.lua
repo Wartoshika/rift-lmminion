@@ -1,3 +1,6 @@
+-- globale adventure variablen
+local currentTimeAdventure = nil
+
 -- holt sich den loot eines abenteuers
 function LmMinion.Adventure.claimLoot(adventure)
 
@@ -94,18 +97,23 @@ end
 function LmMinion.Adventure.getReadableDuration(durationInSeconds)
 
   -- ab minuten rechnen
-  local time = durationInSeconds / 60
-  local unit = " Min"
+  local time = durationInSeconds
+  local unit = " Sek."
 
   -- groesser als 60?
   if time >= 60 then
 
-    -- ja, stunden!
+    -- ja, minuten!
     time = time / 60
-    unit = " Std"
+    unit = " Min."
+  elseif time >= 60 * 60 then
+
+    -- ja, stunden!
+    time = time / 60 / 60
+    unit = " Std."
   end
 
-  return time .. unit
+  return LmMinion.Util.round(time) .. unit
 end
 
 -- gibt die stats eines abenteuers oder eines schergen zurueck
@@ -195,4 +203,60 @@ function LmMinion.Adventure.getAdventure(checkCost)
 
     -- zurueckgeben
     return startAdventure
+end
+
+function LmMinion.Adventure.updateAdventureTime()
+
+    -- laufende abenteuer
+    local workingAdventures = {}
+
+    -- erstmal zuruecksetzen
+    currentTimeAdventure = nil
+
+    -- abenteuer durchgehen und working ones speichern
+    for adventure,v in pairs(Inspect.Minion.Adventure.List()) do
+
+        -- details holen
+        local adventureDetails = Inspect.Minion.Adventure.Detail(adventure);
+
+        -- pruefen ob mode=working ist
+        if adventureDetails.mode == "working" and adventureDetails.completion then
+
+            -- ja, stackend
+            table.insert(workingAdventures, adventureDetails)
+        end
+    end
+
+    -- alle durchgehen und gucken wo completion am kleinsten ist
+    for k, adventureDetails in pairs(workingAdventures) do
+
+        -- pruefen
+        if currentTimeAdventure == nil or adventureDetails.completion < currentTimeAdventure.completion then
+
+            -- ja ist kleiner also aendern
+            currentTimeAdventure = adventureDetails
+        end
+
+    end
+
+    return currentTimeAdventure
+
+end
+
+-- gibt eine lesbare zeit vom abenteuer zurück welchen als nächstes endet
+function LmMinion.Adventure.getSmallestTime()
+
+    -- wenn currentTimeAdventure nil ist dann gibt es keine abenteuer
+    if currentTimeAdventure == nil then
+
+        -- nix ausgehen
+        return "..."
+    end
+
+    -- so nun das ganze in zeit umrechnen
+    local seconds = currentTimeAdventure.completion - Inspect.Time.Server()
+
+    -- und ein to string cast
+    return LmMinion.Adventure.getReadableDuration(seconds)
+
 end

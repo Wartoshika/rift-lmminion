@@ -1,6 +1,5 @@
-local frame
-local tooltip
-local addon
+-- lokale variablen wg. sichtbarkeit hier deklarieren
+local frame, tooltip, zeit, addon
 
 -- initialisiert die gui
 function LmMinion.Ui.init(_addon)
@@ -11,19 +10,29 @@ function LmMinion.Ui.init(_addon)
     -- frame erstellen
     local context = UI.CreateContext("MinionContext")
     frame =  UI.CreateFrame("Text", "LmMinionPannel", context)
-    tooltip =  UI.CreateFrame("Text", "LmMinionTooltip", context)
+    tooltip =  UI.CreateFrame("Text", "LmMinionTooltip", frame)
+    zeit = UI.CreateFrame("Text", "LmMinionTime", frame);
 
     -- default werte
     frame:SetBackgroundColor(0, 0, 0, .5)
     frame:SetFontColor(0, 1, 0)
     frame:SetFontSize(18)
     frame:SetVisible(true)
+    frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 
     -- tooltip zusammenbauen
     tooltip:SetVisible(false)
     tooltip:SetFontColor(1, 1, 1)
     tooltip:SetBackgroundColor(0, 0, 0, .7)
-    tooltip:SetPoint("TOP", frame, "BOTTOM")
+    tooltip:SetPoint("BOTTOMCENTER", frame, "BOTTOMCENTER", 0, 135)
+
+    -- zeit zusammenbauen
+    zeit:SetText("...")
+    zeit:SetBackgroundColor(0, 0, 0, .5)
+    zeit:SetWidth(frame:GetWidth())
+    zeit:SetFontSize(9)
+    zeit:SetPoint("TOPCENTER", frame, "TOPCENTER", 0, -zeit:GetHeight())
+    
 
     -- event listener erstellen
     LmMinion.Ui.createEventListeners()
@@ -31,6 +40,8 @@ end
 
 -- erstellt verschiedene event listener
 function LmMinion.Ui.createEventListeners()
+
+    local dragDrop = false
 
     -- mausrad events zum versenden und looten der schergen verwenden
     function frame.Event:WheelForward ()
@@ -52,7 +63,7 @@ function LmMinion.Ui.createEventListeners()
     end
 
     -- einstellungen
-    function frame.Event:RightClick ()
+    function frame.Event:MiddleClick ()
         
         -- laenge anpassen
         LmMinion.Engine.toggleLength()
@@ -69,6 +80,27 @@ function LmMinion.Ui.createEventListeners()
         -- tooltip anzeigen
         tooltip:SetVisible(false)
     end
+
+    -- drag and drop
+    function frame.Event:RightDown()
+        
+        dragDrop = true
+    end
+    function frame.Event:RightUp()
+        
+        dragDrop = false
+    end
+    function frame.Event:MouseMove()
+
+        -- nur wenn drag drop aktiv
+        if not dragDrop then return end
+
+        -- mausposition holen
+        local maus = Inspect.Mouse()
+
+        -- frame offset position setzen
+        frame:SetPoint("CENTER", UIParent, "TOPLEFT", maus.x, maus.y)
+    end
 end
 
 function LmMinion.Ui.update()
@@ -84,7 +116,11 @@ function LmMinion.Ui.update()
 
     -- nun die gui erneuern
     frame:SetText( (max - freeSlots) .. " / " .. max )
-    tooltip:SetText(addon.name .. " (v " .. addon.toc.Version .. ")\n--------------------------------------\nAktuelle Zeiteinstellung: " .. timeSetting .. "\n--------------------------------------\nMausrad = Schergen versenden\nLinksklick = Abenteuer looten\nRechtsklick = Abenteuerdauer einstellen")
+    tooltip:SetText(addon.name .. " (v " .. addon.toc.Version .. ")\n--------------------------------------\nAktuelle Zeiteinstellung: " .. timeSetting .. "\n--------------------------------------\nMausrad drehen = Schergen versenden\nLinksklick = Abenteuer looten\nRechtsklick = Fenster verschieben\nMausrad druecken = Zeit einstellen")
+
+    -- zeit frame breite anpassen
+    zeit:SetWidth(frame:GetWidth())
+    zeit:SetText(LmMinion.Adventure.getSmallestTime())
 
     -- farbe einstellen
     -- ab 20% rot - unter 81% orange - ab 81% gruen
@@ -101,10 +137,22 @@ function LmMinion.Ui.update()
     if finished > 0 then
 
         -- hintergrund gruen faerben
-        frame:SetBackgroundColor(0, .8, 0);
+        frame:SetBackgroundColor(1, .8431, 0);
 
         -- schrift muss dann zur besseren lesbarkeit weiss
         frame:SetFontColor(0, 0, 0)
+    else
+
+        -- hintergrund wieder normalisieren
+         frame:SetBackgroundColor(0, 0, 0, .5);
     end
+
+end
+
+function LmMinion.Ui.updateTime()
+
+    -- zeit frame breite anpassen
+    zeit:SetWidth(frame:GetWidth())
+    zeit:SetText(LmMinion.Adventure.getSmallestTime())
 
 end
