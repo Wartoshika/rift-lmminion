@@ -86,7 +86,7 @@ function LmMinion.Ui.update()
     local percent = (max - freeSlots) / max * 100
     if percent <= 20 then
         frame:SetFontColor(1, 0, 0)
-    elseif percent <= 80 then
+    else percent < 100 then
         frame:SetFontColor(1, .5, 0)
     else
         frame:SetFontColor(0, 1, 0)
