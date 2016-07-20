@@ -78,8 +78,16 @@ function LmMinion.Adventure.printDetails(adventure)
     -- schergenkarte holen
     local minion = Inspect.Minion.Minion.Detail(adventureDetails.minion)
 
+    -- wenn sonder abentuer dann ist reward nil ...
+    local adventureReward = "*"
+    if adventureDetails.reward ~= nil then
+
+        -- abenteuer reward nehmen
+        adventureReward = adventureDetails.reward
+    end
+
     -- ausgeben
-    print("<" .. adventureDetails.reward .. "> " .. minion.name .. ":" .. minion.level .. " (" .. LmMinion.Adventure.getReadableDuration(adventureDetails.duration) .. ")")
+    print("<" .. adventureReward .. "> " .. minion.name .. ":" .. minion.level .. " (" .. LmMinion.Adventure.getReadableDuration(adventureDetails.duration) .. ")")
 end
 
 -- gibt eine lesbare zeit aus
