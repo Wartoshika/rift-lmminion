@@ -11,7 +11,7 @@ local function init()
     })
 
     -- gui bauen
-    LmMinion.Ui.init()
+    LmMinion.Ui.init(addon)
 
     -- einmal die gui aktuallisieren
     LmMinion.Ui.update()

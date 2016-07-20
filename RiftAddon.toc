@@ -3,7 +3,7 @@ Name = "LooM Minion"
 Description = "Ein Tool um die Schergenperformance zu erhoehen"
 Author = "Wartoshika@Brutwacht"
 Email = "oliverwarrings@freenet.de"
-Version = "1.0"
+Version = "1.1"
 Environment = "3.7"
 
 RunOnStartup = {
