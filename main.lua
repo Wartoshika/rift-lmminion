@@ -10,6 +10,18 @@ local function init()
         "LmMinion.Engine.adventureUpdateEvent"
     })
 
+    -- variablen laden
+    if LmMinionGlobal then
+
+        -- variablen laden wenn definiert
+        for k,v in pairs(LmMinionGlobal) do
+
+            -- einzelnd updaten
+            LmMinion.Options[k] = v;
+        end
+        --LmMinion.Options = LmMinionGlobal
+    end
+
     -- gui bauen
     LmMinion.Ui.init(addon)
 
@@ -49,5 +61,13 @@ local function waitForRiftMinionSystem()
 
 end
 
+-- speichert die gesetzten optionen
+local function saveOptionVariables()
+
+    -- ueberschreiben
+    LmMinionGlobal = LmMinion.Options
+end
+
 -- wenn addon geladen dann init durchfuehren
 Command.Event.Attach(Event.Addon.Load.End, waitForRiftMinionSystem, "waitForRiftMinionSystem")
+Command.Event.Attach(Event.Addon.Shutdown.Begin, saveOptionVariables, "saveOptionVariables")

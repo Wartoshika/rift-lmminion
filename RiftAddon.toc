@@ -6,6 +6,10 @@ Email = "oliverwarrings@freenet.de"
 Version = "1.1"
 Environment = "3.7"
 
+SavedVariables = {
+  LmMinionGlobal = 'account'
+}
+
 RunOnStartup = {
   "global.lua",
   "util.lua",

@@ -79,7 +79,9 @@ function LmMinion.Engine.adventureUpdateEvent(event)
 
             -- nur abenteuer ausgeben wenn scherge gesetzt
             local adventureDetails = Inspect.Minion.Adventure.Detail(adventure)
-            if adventureDetails.minion then
+
+            -- nil pruefung wenn abenteuer warum auch immer nicht mehr verfuegbar
+            if adventureDetails ~= nil and adventureDetails.minion then
 
                 -- ausgeben!
                 LmMinion.Adventure.printDetails(adventureDetails.id)

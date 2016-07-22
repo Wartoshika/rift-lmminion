@@ -5,7 +5,7 @@ function LmMinion.Util.tableLength(table)
   return count
 end
 
--- ala in array
+-- ala in_array
 function LmMinion.Util.tableHasValue (tab, val)
     for index, value in ipairs (tab) do
         if value == val then
@@ -16,14 +16,7 @@ function LmMinion.Util.tableHasValue (tab, val)
     return false
 end
 
+-- abrunden
 function LmMinion.Util.round(num)
-    under = math.floor(num)
-    upper = math.floor(num) + 1
-    underV = -(under - num)
-    upperV = upper - num
-    if (upperV > underV) then
-        return under
-    else
-        return upper
-    end
+    return math.floor(num)
 end

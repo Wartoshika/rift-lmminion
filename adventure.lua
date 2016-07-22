@@ -113,7 +113,13 @@ function LmMinion.Adventure.getReadableDuration(durationInSeconds)
     unit = " Std."
   end
 
-  return LmMinion.Util.round(time) .. unit
+  -- runden!
+  time = LmMinion.Util.round(time)
+
+  -- wenn negati dann 0 liefern
+  if time < 0 then time = 0 end
+
+  return  time .. unit
 end
 
 -- gibt die stats eines abenteuers oder eines schergen zurueck
