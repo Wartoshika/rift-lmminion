@@ -29,6 +29,9 @@ local function init()
     LmMinion.Ui.update()
     Command.Event.Attach(Event.System.Update.End, LmMinion.Ui.updateTime, "LmMinion.Ui.updateTime")
 
+    -- slash events registrieren
+    table.insert(Command.Slash.Register("lmm"), {LmMinion.Slash.handleMainSlashCommand, addon.identifier, "LmMinion.Slash.handleMainSlashCommand"})
+
     -- ausgabe wg. geladen
     print ("erfolgreich geladen (v " .. addon.toc.Version ..")")
 

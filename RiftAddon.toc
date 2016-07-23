@@ -10,8 +10,19 @@ SavedVariables = {
   LmMinionGlobal = 'account'
 }
 
+Embed = {
+	["vendor/LibAnimate"] = true,
+	--["vendor/colorchooser"] = true
+}
+
+Dependencies = {
+	LibAnimate = {"required", "before"},
+	--ColorChooser = {"required", "before"}
+}
+
 RunOnStartup = {
   "global.lua",
+  "slash.lua",
   "util.lua",
   "engine.lua",
   "adventure.lua",

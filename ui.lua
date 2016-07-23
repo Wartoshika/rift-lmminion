@@ -1,5 +1,5 @@
 -- lokale variablen wg. sichtbarkeit hier deklarieren
-local frame, tooltip, zeit, addon
+local context, frame, tooltip, zeit, addon, optionBaseLayout
 
 -- initialisiert die gui
 function LmMinion.Ui.init(_addon)
@@ -8,10 +8,11 @@ function LmMinion.Ui.init(_addon)
     addon = _addon;
 
     -- frame erstellen
-    local context = UI.CreateContext("MinionContext")
+    context = UI.CreateContext("MinionContext")
     frame =  UI.CreateFrame("Text", "LmMinionPannel", context)
     tooltip =  UI.CreateFrame("Text", "LmMinionTooltip", frame)
-    zeit = UI.CreateFrame("Text", "LmMinionTime", frame);
+    zeit = UI.CreateFrame("Text", "LmMinionTime", frame)
+    optionBaseLayout = UI.CreateFrame("Mask", "LmMinionBaseOptionLayout", context)
 
     -- default werte
     frame:SetBackgroundColor(0, 0, 0, .5)
@@ -32,10 +33,12 @@ function LmMinion.Ui.init(_addon)
     zeit:SetWidth(frame:GetWidth())
     zeit:SetFontSize(9)
     zeit:SetPoint("TOPCENTER", frame, "TOPCENTER", 0, -zeit:GetHeight())
-    
+
+    -- option layout
+    optionBaseLayout:SetPoint("CENTER", UIParent, "CENTER")
 
     -- event listener erstellen
-    LmMinion.Ui.createEventListeners()
+    LmMinion.Ui.createEventListeners() 
 end
 
 -- erstellt verschiedene event listener
@@ -113,6 +116,7 @@ function LmMinion.Ui.createEventListeners()
     end
 end
 
+-- main gui update
 function LmMinion.Ui.update()
 
     -- anzahl freier slots fuer schergen
@@ -126,7 +130,7 @@ function LmMinion.Ui.update()
 
     -- nun die gui erneuern
     frame:SetText( (max - freeSlots) .. " / " .. max )
-    tooltip:SetText(addon.name .. " (v " .. addon.toc.Version .. ")\n--------------------------------------\nAktuelle Zeiteinstellung: " .. timeSetting .. "\n--------------------------------------\nMausrad drehen = Schergen versenden\nLinksklick = Abenteuer looten\nRechtsklick = Fenster verschieben\nMausrad druecken = Zeit einstellen")
+    tooltip:SetText(addon.name .. " (v " .. addon.toc.Version .. ")\n--------------------------------------\nAktuelle Zeiteinstellung: " .. timeSetting .. "\n--------------------------------------\nMausrad drehen = Schergen versenden\nLinksklick = Abenteuer looten\nRechtsklick = Fenster verschieben\nMausrad druecken = Zeit einstellen\n--------------------------------------\n\\lmm fuer mehr Optionen")
 
     -- zeit frame breite anpassen
     zeit:SetWidth(frame:GetWidth())
@@ -147,7 +151,8 @@ function LmMinion.Ui.update()
     if finished > 0 then
 
         -- hintergrund gruen faerben
-        frame:SetBackgroundColor(.1, .75, .1);
+        local color = LmMinion.Options.minionFinishedBackgroundColor
+        frame:SetBackgroundColor(color.r, color.g, color.b);
 
         -- schrift muss dann zur besseren lesbarkeit weiss
         frame:SetFontColor(0, 0, 0)
@@ -159,6 +164,7 @@ function LmMinion.Ui.update()
 
 end
 
+-- nur die zeit updaten
 function LmMinion.Ui.updateTime()
 
     -- zeit frame breite anpassen

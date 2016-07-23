@@ -54,8 +54,20 @@ function LmMinion.Adventure.getFinishedAdventures()
     -- durchgehen, nur mode=finished sind relevant
     for index, adventure in pairs(minionSlots) do
 
+        -- nur wenn ein abenteuer ein fertigstellungszeitpunkt hat
+        if adventure.completion == nil then 
+        
+            -- zeit setzen
+            adventure.completion = 0
+        end
+
         -- mode pruefen
-        if adventure.mode == "finished" then
+        -- mode = finished reicht nicht aus da es einen bug gibt wenn ein scherge
+        -- ein abenteuer abgeschlossen hat ohne sterne. also auch die zeit pruefen
+        local finishTime = adventure.completion - Inspect.Time.Server() 
+
+        -- nun pruefen
+        if adventure.mode == "finished" or finishTime <= 0 then
 
             -- gefunden, stacken!
             table.insert(done, adventure)
@@ -225,12 +237,20 @@ function LmMinion.Adventure.updateAdventureTime()
         -- details holen
         local adventureDetails = Inspect.Minion.Adventure.Detail(adventure);
 
+        -- nur prufen wenn ueberhaupt laufen kann
+        if adventureDetails.completion == nil then goto continue end
+
+        -- zeit pruefen wg. 0 sterne schergen
+        local timeCheck = adventureDetails.completion - Inspect.Time.Server()        
+
         -- pruefen ob mode=working ist
-        if adventureDetails.mode == "working" and adventureDetails.completion then
+        if adventureDetails.mode == "working" and adventureDetails.completion and timeCheck > 0 then
 
             -- ja, stackend
             table.insert(workingAdventures, adventureDetails)
         end
+
+        ::continue::
     end
 
     -- alle durchgehen und gucken wo completion am kleinsten ist
