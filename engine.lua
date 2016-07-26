@@ -5,7 +5,7 @@ function LmMinion.Engine.loot()
     local adventures = LmMinion.Adventure.getFinishedAdventures()
 
     -- gibt es ueberhaupt ein abenteuer?
-    if LmMinion.Util.tableLength(adventures) > 0 then
+    if LmUtils.tableLength(adventures) > 0 then
 
         -- ein abenteuer gefunden, pluendern!
         return LmMinion.Adventure.claimLoot(adventures[1].id)
@@ -71,7 +71,7 @@ end
 function LmMinion.Engine.adventureUpdateEvent(event)
 
     -- pruefen ob loot event oder versendet event
-    if LmMinion.Util.tableLength(event) > 1 then
+    if LmUtils.tableLength(event) > 1 then
         
         -- info ausgeben, welcher scherge auf welches event geschickt wurde
         -- es sind auch neue abenteuer angebenen

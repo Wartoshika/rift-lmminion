@@ -11,19 +11,16 @@ SavedVariables = {
 }
 
 Embed = {
-	["vendor/LibAnimate"] = true,
-	--["vendor/colorchooser"] = true
+	["vendor/lmutils"] = true
 }
 
 Dependencies = {
-	LibAnimate = {"required", "before"},
-	--ColorChooser = {"required", "before"}
+	LmUtils = {"required", "before"}
 }
 
 RunOnStartup = {
   "global.lua",
   "slash.lua",
-  "util.lua",
   "engine.lua",
   "adventure.lua",
   "minion.lua",

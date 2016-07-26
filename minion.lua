@@ -49,7 +49,7 @@ function LmMinion.Minion.getMinionForAdventure(adventureDetails)
             for _, stat in pairs(minionStat) do
 
                 -- attribut vorhanden?
-                if LmMinion.Util.tableHasValue(startAdventureStats, stat) and not LmMinion.Minion.checkInAdventure(minion) then
+                if LmUtils.tableHasValue(startAdventureStats, stat) and not LmMinion.Minion.checkInAdventure(minion) then
 
                     -- ja, stacken
                     table.insert(possibleStartMinions, minionDetails)

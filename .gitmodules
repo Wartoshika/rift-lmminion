@@ -1,0 +1,3 @@
+[submodule "vendor/lmutils"]
+	path = vendor/lmutils
+	url = https://github.com/Wartoshika/rift-lmutils.git

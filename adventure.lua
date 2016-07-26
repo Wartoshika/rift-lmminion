@@ -40,7 +40,7 @@ function LmMinion.Adventure.getFreeSlotCount()
     local minionSlots = LmMinion.Adventure.getMinionSlots()
 
     -- ergebnis liefern
-    return Inspect.Minion.Slot() - LmMinion.Util.tableLength(minionSlots)
+    return Inspect.Minion.Slot() - LmUtils.tableLength(minionSlots)
 end
 
 -- gibt die fertigen abenteuer zurueck
@@ -81,7 +81,7 @@ end
 -- gibt die anzahl fertiger abenteuer zurueck
 function LmMinion.Adventure.getFinishedAdventureCount()
 
-    return LmMinion.Util.tableLength(LmMinion.Adventure.getFinishedAdventures())
+    return LmUtils.tableLength(LmMinion.Adventure.getFinishedAdventures())
 end
 
 -- gibt eine info fuer den benutzer im chat aus
@@ -126,7 +126,7 @@ function LmMinion.Adventure.getReadableDuration(durationInSeconds)
   end
 
   -- runden!
-  time = LmMinion.Util.round(time)
+  time = LmUtils.round(time)
 
   -- wenn negati dann 0 liefern
   if time < 0 then time = 0 end

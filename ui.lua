@@ -130,7 +130,7 @@ function LmMinion.Ui.update()
 
     -- nun die gui erneuern
     frame:SetText( (max - freeSlots) .. " / " .. max )
-    tooltip:SetText(addon.name .. " (v " .. addon.toc.Version .. ")\n--------------------------------------\nAktuelle Zeiteinstellung: " .. timeSetting .. "\n--------------------------------------\nMausrad drehen = Schergen versenden\nLinksklick = Abenteuer looten\nRechtsklick = Fenster verschieben\nMausrad druecken = Zeit einstellen\n--------------------------------------\n\\lmm fuer mehr Optionen")
+    tooltip:SetText(addon.name .. " (v " .. addon.toc.Version .. ")\n--------------------------------------\nAktuelle Zeiteinstellung: " .. timeSetting .. "\n--------------------------------------\nMausrad drehen = Schergen versenden\nLinksklick = Abenteuer looten\nRechtsklick = Fenster verschieben\nMausrad druecken = Zeit einstellen")
 
     -- zeit frame breite anpassen
     zeit:SetWidth(frame:GetWidth())
