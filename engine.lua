@@ -43,22 +43,48 @@ function LmMinion.Engine.send()
         return
     end
 
+    -- das premium abenteuer darf aventurine kosten
+    local cost = LmMinion.Options.minionAdventureLength.cost
+
     -- ok, scherge wegschicken!
-    pcall(Command.Minion.Send, minion.id, adventure.id, "none")
+    pcall(Command.Minion.Send, minion.id, adventure.id, cost)
     
 end
 
 -- veraendert die event laenge
 function LmMinion.Engine.toggleLength()
 
+    -- erstmal die moeglichen abenteuer definieren
+    local possibleAdventureLength = LmMinion.PossibleAdventureLength
 
-    if LmMinion.Options.minionAdventureLength == "1 Min" then
+    -- jetzt die option anpassen
+    local key = LmUtils.findTableKey(possibleAdventureLength, LmMinion.Options.minionAdventureLength)
 
-        LmMinion.Options.minionAdventureLength = "5-20 Min"
-    else
-        LmMinion.Options.minionAdventureLength = "1 Min"
+    -- wenn key nil ist dann gibt es ein migrationsproblem zwischen verschiedenen
+    -- versionen des addons. also ein default wert festlegen
+    if key == nil then
 
+        -- default benutzen 
+        LmMinion.Options.minionAdventureLength = possibleAdventureLength[2]
+        key = 2
     end
+    
+
+    -- pruefen ob es ein naechsten index gibt
+    if not pcall(next, possibleAdventureLength, key + 1) then
+
+        -- key auf 0 setzen damit es beim naechsten hochzaehlen 1 wird
+        -- (anfang des tables)
+        key = 0
+    end
+
+    -- naechsten index holen
+    -- hier darf nicht key+1 stehen da bei dem pcall der table such index
+    -- schon incrementiert wurde
+    local _, nextLength = next(possibleAdventureLength, key)
+
+    -- nextLength sollte immer vorhanden sein
+    LmMinion.Options.minionAdventureLength = nextLength
 
     -- ui update event rufen
     LmMinion.Ui.update()

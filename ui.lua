@@ -126,7 +126,7 @@ function LmMinion.Ui.update()
     local freeSlots = LmMinion.Adventure.getFreeSlotCount()
     local max = Inspect.Minion.Slot()
     local finished = LmMinion.Adventure.getFinishedAdventureCount()
-    local timeSetting = LmMinion.Options.minionAdventureLength
+    local timeSetting = LmMinion.Adventure.getReadableDuration(LmMinion.Options.minionAdventureLength)
 
     -- nun die gui erneuern
     frame:SetText( (max - freeSlots) .. " / " .. max )

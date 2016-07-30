@@ -106,32 +106,70 @@ function LmMinion.Adventure.printDetails(adventure)
 end
 
 -- gibt eine lesbare zeit aus
-function LmMinion.Adventure.getReadableDuration(durationInSeconds)
+function LmMinion.Adventure.getReadableDuration(duration)
 
-  -- ab minuten rechnen
-  local time = durationInSeconds
-  local unit = " Sek."
+    -- berechnet einen teil
+    local function getTimePart(partInSeconds, getUnit)
 
-  -- groesser als 60?
-  if time >= 60 then
+        -- einheit mit?
+        if getUnit == nil then
 
-    -- ja, minuten!
-    time = time / 60
-    unit = " Min."
-  elseif time >= 60 * 60 then
+            getUnit = true
+        end
 
-    -- ja, stunden!
-    time = time / 60 / 60
-    unit = " Std."
-  end
+        -- ab sekunden rechnen
+        local time = partInSeconds
+        local unit = " Sek."
 
-  -- runden!
-  time = LmUtils.round(time)
+        -- groesser als 60?
+        if time >= 60 and time < 60 * 60 then
 
-  -- wenn negati dann 0 liefern
-  if time < 0 then time = 0 end
+            -- ja, minuten!
+            time = time / 60
+            unit = " Min."
+        elseif time >= 60 * 60 then
 
-  return  time .. unit
+            -- ja, stunden!
+            time = time / 60 / 60
+            unit = " Std."
+        end
+
+        -- runden!
+        time = LmUtils.round(time)
+
+        -- wenn negati dann 0 liefern
+        if time < 0 then time = 0 end
+
+        if getUnit then
+            return  time .. unit
+        else
+            return time
+        end 
+    end
+
+    if type(duration) ~= "table" then
+
+        -- nur die sekunden berechnen
+        return getTimePart(duration)
+    else
+
+        -- minimal und maximal berechnen
+        local min, max = getTimePart(duration.min), getTimePart(duration.max) 
+
+        -- wenn gleich dann nur eine zeit zurueckgeben
+        if min == max then
+
+            -- ein wert zurueckgeben
+            return min;
+        else
+
+            -- min und max concaternieren
+            -- @todo: wenn und max unterschiedliche einheiten haben dann stimmt dies nicht mehr
+            --        aktuell gibt es aber keinen anwendungsfall 
+            return getTimePart(duration.min, false) .. "-" .. max
+        end
+    end
+
 end
 
 -- gibt die stats eines abenteuers oder eines schergen zurueck
@@ -147,7 +185,7 @@ function LmMinion.Adventure.getAdventureOrMinitonStats(obj)
       if string.match(key, "stat") then
 
         -- ja!
-        table.insert(statStack, key)
+        statStack[key] = val
       end
     end
 
@@ -158,17 +196,12 @@ end
 -- prueft ob das abenteuer zu den zeitlichen einstellungen passt
 function LmMinion.Adventure.fitDuration(adventureDurationSeconds)
 
-        -- details holen
-        if LmMinion.Options.minionAdventureLength == "1 Min" then
+    -- zeit holen
+    local time = LmMinion.Options.minionAdventureLength
 
-            -- eine minute in sekunden
-            return adventureDurationSeconds == 60
-        elseif LmMinion.Options.minionAdventureLength == "5-20 Min" then
-
-            -- 5 bis 15 min in sekunden!
-            return adventureDurationSeconds >= 300 and adventureDurationSeconds <= 1200
-        end
-
+    -- min und max sind relevant
+    return adventureDurationSeconds >= time.min and adventureDurationSeconds <= time.max 
+    
 end
 
 -- liefert ein passendes abenteuer zurueck
