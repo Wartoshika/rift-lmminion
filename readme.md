@@ -21,7 +21,7 @@ in folgendem Pfad: `%USERPROFILE%\Documents\RIFT\Interface\Addons` (Ab Windows V
 - **F: Addon wird nicht angezeugt!**
 - *A: Du musst sicherstellen, dass wirklich alle Dateien (keine ZIP-Datei) im Addonverzeichnis sind. Außerdem empfiehlt es sich das Spiel einmal neuzustarten.*
 - **F: Wird Guthaben oder Aventurin verbraucht?**
-- *A: Nein, es werden nur kostenlose Abenteuer benutzt. Kostenpflichtige Abenteuer werden versucht ohne beigabe von Währungen zu verschieben.*
+- *A: Bis aus das Premium Abenteuer werden keine Währungen verbraucht. Für das Premium Abenteuer wird immer Aventurin verbraucht.*
 - **F: Der Addon Ordner ist nicht unter gem angegebenen Pfad zu erreichen!**
 - *A: In den Rift Optionen auf Addons klicken, dann auf Addonverzeichnis öffnen. Dies ist der Pfad auf Deinem System.*
 
