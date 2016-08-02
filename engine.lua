@@ -60,16 +60,6 @@ function LmMinion.Engine.toggleLength()
     -- jetzt die option anpassen
     local key = LmUtils.findTableKey(possibleAdventureLength, LmMinion.Options.minionAdventureLength)
 
-    -- wenn key nil ist dann gibt es ein migrationsproblem zwischen verschiedenen
-    -- versionen des addons. also ein default wert festlegen
-    if key == nil then
-
-        -- default benutzen 
-        LmMinion.Options.minionAdventureLength = possibleAdventureLength[2]
-        key = 2
-    end
-    
-
     -- pruefen ob es ein naechsten index gibt
     if not pcall(next, possibleAdventureLength, key + 1) then
 

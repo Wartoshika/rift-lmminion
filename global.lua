@@ -5,6 +5,7 @@ LmMinion = {
     Ui = {},
     Util = {},
     Slash = {},
+    VersionMigrationAdapter = {},
     Options = {
         minionAdventureLength = {
             min = 300,
@@ -18,7 +19,8 @@ LmMinion = {
             r = .1,
             g = .75,
             b = .1
-        }
+        },
+        version = (...).toc.Version
     },
     PossibleAdventureLength = {
         {

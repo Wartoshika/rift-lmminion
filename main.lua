@@ -22,6 +22,9 @@ local function init()
         --LmMinion.Options = LmMinionGlobal
     end
 
+    -- eventuelle migration durchfuehren
+    LmMinion.VersionMigrationAdapter.migrate()
+
     -- gui bauen
     LmMinion.Ui.init(addon)
 
