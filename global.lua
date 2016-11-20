@@ -8,8 +8,9 @@ LmMinion = {
     VersionMigrationAdapter = {},
     Options = {
         minionAdventureLength = {
-            min = 300,
-            max = 1200,
+            -- erfahrungsabenteuer
+            min = 60,
+            max = 60,
             cost = "none",
             minionStat = "min"
         },
@@ -47,6 +48,6 @@ LmMinion = {
             max = 28800,
             cost = "none",
             minionStat = "max"
-        }   
+        }
     }
 }

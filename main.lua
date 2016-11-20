@@ -17,7 +17,13 @@ local function init()
         for k,v in pairs(LmMinionGlobal) do
 
             -- einzelnd updaten
-            LmMinion.Options[k] = v;
+            -- event laenge nicht mit laden
+            if not(k == "minionAdventureLength") then
+
+                -- laden
+                LmMinion.Options[k] = v;
+            end
+
         end
         --LmMinion.Options = LmMinionGlobal
     end
@@ -72,6 +78,7 @@ local function saveOptionVariables()
 
     -- ueberschreiben
     LmMinionGlobal = LmMinion.Options
+
 end
 
 -- wenn addon geladen dann init durchfuehren
